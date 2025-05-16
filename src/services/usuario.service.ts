@@ -2,9 +2,9 @@
 import axios from './root.service.js';
 import cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
-import usuarioModel from '../model/usuario.ts';
+import UsuarioModel from '../model/Usuario.ts';
 
-export async function login(dataUser : usuarioModel) {
+export async function login(dataUser : UsuarioModel) {
     console.log("login")
     try {
         const response = await axios.post('/auth/loguear', {

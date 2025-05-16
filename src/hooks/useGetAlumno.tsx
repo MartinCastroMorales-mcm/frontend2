@@ -1,23 +1,26 @@
 import { useState, useEffect } from 'react';
 import { getAlumnosService } from '../services/alumno.service';
-import { Alumno } from '../pages/Alumno';
+import ReturnValue from '../model/ReturnValue';
+import Alumno from '../model/Alumno';
+import ResponseEntity from '../model/ResponseEntity';
 
 const useGetAlumnos = () => {
-    const [alumno, setAlumno] = useState([]);
+    const [alumnos, setAlumno] = useState<Alumno[]>([]);
 
     const fetchAlumno = async () => {
         try {
-            const data : Alumno[] = await getAlumnosService();
-            console.log("fetch tipo utensilio")
-            //for(let i = 0; i < data.length; i++) {
-                //data[i].nombre_tipo_utensilio = data[i].nombre_tipo_utensilio.charAt(0).toUpperCase() + data[i].nombre_tipo_utensilio.slice(1);
-            //}
-            data.map((item : any) => {
-                item.nombre_tipo_utensilio = 
-                item.nombre_tipo_utensilio.charAt(0).toUpperCase() + 
-                item.nombre_tipo_utensilio.slice(1);
-            })
-            setAlumno(data );
+            console.log("hook alumnos");
+            const response : ResponseEntity = await getAlumnosService();
+            const data = response?.data;
+            console.log("data")
+            console.log(data);
+            console.log("alumnos");
+            console.log(data.alumnos);
+            if(data === undefined) {
+                setAlumno([]);
+            }else {
+                setAlumno(data.alumnos);
+            }
         } catch (error) {
             console.error('Error fetching tipo utensilios:', error);
         }
@@ -27,7 +30,7 @@ const useGetAlumnos = () => {
         fetchAlumno();
     }, []);
 
-    return { alumno, , setTipoUtensilios };
+    return { alumnos, fetchAlumno, setAlumno };
 };
 
-export default useGetTipoUtensilio;
+export default useGetAlumnos;

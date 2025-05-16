@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from 'react-hook-form'
 import { DevTool } from '@hookform/devtools'
 import { login } from "../../services/usuario.service.ts"
-import { usuarioModel } from '../../model/usuario.ts';
+import { UsuarioModel } from '../../model/Usuario.ts';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -21,14 +21,14 @@ type registrarFormType = {
 
 export const RegistrarForm = () => {
     //form es el objeto que contiene el estado del formulario
-    const form = useForm<usuarioModel>();
+    const form = useForm<UsuarioModel>();
     const navigate = useNavigate();
     //control contiene informacion usada para la depuracion
     //register es un objeto que se usa para registrar atributos del formulario
     const { register, control, handleSubmit, formState } = form;
     const { errors } = formState;
     renderCount++;
-    const loginSubmit = async (data: usuarioModel) => {
+    const loginSubmit = async (data: UsuarioModel) => {
         try {
             const response = await login(data);
             console.log("response")
@@ -44,7 +44,7 @@ export const RegistrarForm = () => {
             console.log(error);
         }
     };
-    const onSubmit = (data: usuarioModel) => {
+    const onSubmit = (data: UsuarioModel) => {
         console.log("form submit", data);
         loginSubmit(data);
     }

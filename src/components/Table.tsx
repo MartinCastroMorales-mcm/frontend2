@@ -5,7 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Alumno } from '../pages/Alumno'
+import Alumno from '../model/Alumno'
 
 type Person = {
   firstName: string
@@ -99,34 +99,12 @@ const defaultData: Alumno[] = [
   }
 ];
 
+
+
 const columnHelper = createColumnHelper<Alumno>()
 
-//const columns = [
-  //columnHelper.accessor('rut_alumno', {
-    //header: () => "Rut",
-    //cell: info => info.getValue(),
-    //footer: info => info.column.id,
-  //}),
-  //columnHelper.accessor(row => row.nombre_alumno, {
-    //id: 'nombre_alumno',
-    //cell: info => <i>{info.getValue()}</i>,
-    //header: () => <span>Nombre Alumno</span>,
-    //footer: info => info.column.id,
-  //}),
-  //columnHelper.accessor('nombre_completo_alumno', {
-    //header: () => 'nombre_completo_alumno',
-    //cell: info => info.renderValue(),
-    //footer: info => info.column.id,
-  //}),
-  //columnHelper.accessor('fecha_nacimiento_alumno', {
-    //header: () => <span>Fecha de nacimiento</span>,
-    //footer: info => info.column.id,
-  //}),
-  //columnHelper.accessor('correo_alumno', {
-    //header: 'Correo Electronico',
-    //footer: info => info.column.id,
-  //}),
-//]
+
+
 const columns = [
   columnHelper.accessor('rut_alumno', {
     header: () => <span>Rut Alumno</span>,
@@ -147,7 +125,8 @@ const columns = [
     header: () => <span>Fecha Nacimiento Alumno</span>,
     cell: info => {
       const value = info.getValue();
-      return value instanceof Date ? value.toLocaleDateString('es-CL') : ''
+      return value;
+      //return value instanceof Date ? value.toLocaleDateString('es-CL') : ''
     },
     footer: () => <span>Fecha Nacimiento Alumno</span>,
   }),
@@ -156,15 +135,42 @@ const columns = [
     cell: info => info.getValue(),
     footer: () => <span>Correo Alumno</span>,
   }),
+  //display es un tipo distinto de celda que sirve para botones
+
+  columnHelper.display({
+    id: "acciones",
+    header: "Acciones",
+    footer: "Acciones",
+    cell: ({ row }) => (
+      <div>
+        <button 
+            className='bg-blue-600 hover:bg-blue-700 text-black m-2 font-semibold py-2 px-4 rounded'
+            //onClick={}
+            >
+          Agregar 
+        </button>
+        <button className='bg-yellow-400 hover:bg-yellow-500 text-black m-2 font-semibold py-2 px-4 rounded'>
+          Editar
+        </button>
+        <button className='bg-red-600 hover:bg-red-700 text-black m-2 font-semibold py-2 px-4 rounded'>
+          Eliminar
+        </button>
+      </div>
+    )
+  }
+  ),
 ];
 
 export const TanstackTable = (props : {data: Alumno[]}) => {
-
-  const [data, _setData] = React.useState(() => [...defaultData])
+  console.log("props.data");
+  console.log(props.data);
+  console.log(defaultData);
+  //const [data, _setData] = React.useState(() => [...props.data])
+  //const [data, _setData] = React.useState(() => [...defaultData])
   const rerender = React.useReducer(() => ({}), {})[1]
 
   const table = useReactTable({
-    data,
+    data: props.data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })

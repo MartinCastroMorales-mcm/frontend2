@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, ReactNode} from 'react';
 import { useNavigate } from 'react-router-dom';
-import usuario from '../model/usuario'
+import usuario from '../model/Usuario'
 
 export type AuthContextType = {
     isAuthenticated: boolean
