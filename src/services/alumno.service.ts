@@ -41,6 +41,7 @@ export async function getAlumnosService(): Promise<ResponseEntity> {
 export async function addAlumnosService(requestData : Alumno): Promise<ResponseEntity> {
     console.log("addAlumnosService");
     try {
+        requestData.rut_alumno = requestData.rut_alumno.toUpperCase();
         const { data } = await myaxios.post('/alumno', requestData);
         const response = data;
         console.log("response");
@@ -54,7 +55,10 @@ export async function addAlumnosService(requestData : Alumno): Promise<ResponseE
         if(axios.isAxiosError<ResponseEntity>(error)) {
             //TODO: que hace la ?, algo con nulos?
             if(error.response !== null && error.response !== undefined) {
-                console.log(error.response.data);
+                console.log(error.response.data.message);
+                //Esto se hace para que axiosResponse tenga el error que 
+                //tiene el backend
+                error.message = error.response.data.message;
                 console.log("nuevo mensaje en error.message")
                 //TODO cambiar el message en el backend para que se vea el nombre
                 //de uno de los errores o mejor la lista de todos los errores
@@ -71,3 +75,10 @@ export async function addAlumnosService(requestData : Alumno): Promise<ResponseE
         //return {data: { alumnos: [] }, message: "Error en la respuesta"}
     }
 }
+
+//export async function updateAlumnosService(requestData: Alumno): Promise<ResponseEntity> {
+    //try {
+        //const { data } = await myaxios.
+    //}
+
+//}

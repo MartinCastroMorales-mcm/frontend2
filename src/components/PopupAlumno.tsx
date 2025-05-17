@@ -126,8 +126,8 @@ export default function Popup({ show, setShow, data, action } : props) {
                                 },
                                 {
                                     label: "Correo Electronico",
-                                    name: "nombre_completo_alumno",
-                                    defaultValue: alumnoData.nombre_completo_alumno || "",
+                                    name: "correo_alumno",
+                                    defaultValue: alumnoData.correo_alumno || "",
                                     placeholder: 'ejemplo@gmail.com',
                                     fieldType: 'input',
                                     type: "text",

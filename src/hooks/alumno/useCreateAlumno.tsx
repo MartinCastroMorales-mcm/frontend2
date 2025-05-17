@@ -21,8 +21,13 @@ const useCreateAlumno = (
         console.log("handleCreate");
         if (newAlumnoData) {
             try {
+                //Normalizar antes de enviar
+
+
                 const response = await addAlumnosService(newAlumnoData);
-                const alumnoCreado = response.data.alumnos;
+                //console.log("response")
+                //console.log(response);
+                const alumnoCreado = response.data;
                 showSuccessAlert('¡Usuario Creado!', 'El usuario se ha registrado correctamente.');
                 //TODO: eliminar este any
                 setAlumnos((prev: any) => [...prev, alumnoCreado]);
