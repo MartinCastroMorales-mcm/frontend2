@@ -20,7 +20,7 @@ export default function Header() {
   ];
   return (
     <header className={`${colorPrimario} shadow-md`}>
-      <nav className="container mx-auto px-4 py-4">
+      <nav className="mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
           {/* 

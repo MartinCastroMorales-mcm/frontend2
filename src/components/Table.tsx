@@ -103,7 +103,12 @@ const defaultData: Alumno[] = [
 
 const columnHelper = createColumnHelper<Alumno>()
 
-
+const handlerEditAlumno = () => {
+  console.log("create");
+}
+const handleDeleteAlumno = () => {
+  console.log("create");
+}
 
 const columns = [
   columnHelper.accessor('rut_alumno', {
@@ -143,16 +148,12 @@ const columns = [
     footer: "Acciones",
     cell: ({ row }) => (
       <div>
-        <button 
-            className='bg-blue-600 hover:bg-blue-700 text-black m-2 font-semibold py-2 px-4 rounded'
-            //onClick={}
-            >
-          Agregar 
-        </button>
-        <button className='bg-yellow-400 hover:bg-yellow-500 text-black m-2 font-semibold py-2 px-4 rounded'>
+        <button className='bg-yellow-400 hover:bg-yellow-500 text-black m-2 font-semibold py-2 px-4 rounded'
+                onClick={handlerEditAlumno}>
           Editar
         </button>
-        <button className='bg-red-600 hover:bg-red-700 text-black m-2 font-semibold py-2 px-4 rounded'>
+        <button className='bg-red-600 hover:bg-red-700 text-black m-2 font-semibold py-2 px-4 rounded'
+                onClick={handleDeleteAlumno}>
           Eliminar
         </button>
       </div>
@@ -161,7 +162,13 @@ const columns = [
   ),
 ];
 
-export const TanstackTable = (props : {data: Alumno[]}) => {
+type props_type = {
+  data: Alumno[],
+  handlerCreateAlumno: (newAlumnoData: Alumno) => Promise<void> 
+  handleClickCreate: () => void
+}
+
+export const TanstackTable = (props : props_type) => {
   console.log("props.data");
   console.log(props.data);
   console.log(defaultData);
@@ -177,6 +184,12 @@ export const TanstackTable = (props : {data: Alumno[]}) => {
 
   return (
     <div className="">
+      <button 
+          className='bg-red-700 hover:bg-red-900 text-black m-2 font-semibold py-2 px-4 rounded'
+          onClick={props.handleClickCreate}
+          >
+        Agregar 
+      </button>
       <table className='min-w-full border-2 rounded overflow-hidden'>
         <thead className='bg-red-700 font-semibold'>
           {table.getHeaderGroups().map(headerGroup => (

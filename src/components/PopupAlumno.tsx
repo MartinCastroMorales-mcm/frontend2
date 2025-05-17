@@ -1,8 +1,10 @@
 import Form from './Form';
-import '@styles/popup.css';
-import CloseIcon from '@assets/XIcon.svg';
-import QuestionIcon from '@assets/QuestionCircleIcon.svg';
+//import '../styles/popup.css';
+import '../styles/popup.css'
+//import CloseIcon from '@assets/XIcon.svg';
+//import QuestionIcon from 'assets/QuestionCircleIcon.svg';
 import Alumno from '../model/Alumno';
+import { X } from 'lucide-react';
 
 
 type props = {
@@ -12,7 +14,7 @@ type props = {
     //donde t es el tipo del primer valor retorndado por useState
     setShow: React.Dispatch<React.SetStateAction<boolean>>,
     data: Alumno[],
-    action: (nuevoAlumno: Alumno[]) => void
+    action: (nuevoAlumno: Alumno) => void
 }
 
 export default function Popup({ show, setShow, data, action } : props) {
@@ -20,11 +22,22 @@ export default function Popup({ show, setShow, data, action } : props) {
     //Decidi dejarlo como data[0] debido a que al estar definido como arr,
     //era confuso de otro modo. hay que mantener consistencia de tipo para
     //que funcione
-    const alumnoData = data[0];
+    console.log("alumnosData");
+    console.log(data);
+    const alumnoData : Alumno = {
+       id_alumno: undefined,
+       rut_alumno: "",
+       nombre_alumno: "",
+       nombre_completo_alumno: "", 
+       fecha_nacimiento_alumno: new Date(),
+       correo_alumno: "",
+    }//data[0];
 
 
     //Tiene que ser de tipo any porque asi esta definido en el Form.tsx
     const handleSubmit = (formData : any) => {
+        console.log("submit")
+        console.log(formData)
         action(formData);
     };
 
@@ -32,19 +45,22 @@ export default function Popup({ show, setShow, data, action } : props) {
     return (
         <div>
             { show && (
-            <div className="bg">
+            <div className="bg ">
                 <div className="popup">
                     <button className='close' onClick={() => setShow(false)}>
+                        {/*
                         <img src={CloseIcon} />
+                        */}
+                        <X/>
                     </button>
                     <Form
-                            title="Editar usuario"
+                            title="Formulario de creacion de usuario"
                             fields={[
                                 {
-                                    label: "Nombre completo",
-                                    name: "nombreCompleto",
+                                    label: "rut_alumno",
+                                    name: "rut_alumno",
                                     defaultValue: alumnoData.rut_alumno || "",
-                                    placeholder: 'Diego Alexis Salazar Jara',
+                                    placeholder: '20.941.502-k',
                                     fieldType: 'input',
                                     type: "text",
                                     required: true,
@@ -56,13 +72,9 @@ export default function Popup({ show, setShow, data, action } : props) {
                                     //del diego, ya que estas eran opcionales
                                     //typescript obliga a defnirlas todas para evitar 
                                     //ambiguedad. Lo mismo aplica para los otros field
-                                    validate: function (value: any): boolean | string {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    validate: () => true,
                                     disabled: false,
-                                    onChange: function (event: any): void {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    onChange: () => {},
                                     options: [],
                                     errorMessageData: undefined
                                 },
@@ -78,13 +90,10 @@ export default function Popup({ show, setShow, data, action } : props) {
                                     maxLength: 30,
                                     pattern: undefined,
                                     patternMessage: '',
-                                    validate: function (value: any): boolean | string {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    validate: () => true,
                                     disabled: false,
-                                    onChange: function (event: any): void {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    //valor por defecto
+                                    onChange: () => {},
                                     options: [],
                                     errorMessageData: undefined
                                 },
@@ -100,13 +109,9 @@ export default function Popup({ show, setShow, data, action } : props) {
                                     pattern: patternRut,
                                     patternMessage: "Debe ser xx.xxx.xxx-x o xxxxxxxx-x",
                                     required: true,
-                                    validate: function (value: any): boolean | string {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    validate: () => true,
                                     disabled: false,
-                                    onChange: function (event: any): void {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    onChange: () => {},
                                     options: [],
                                     errorMessageData: undefined
                                 },
@@ -115,7 +120,9 @@ export default function Popup({ show, setShow, data, action } : props) {
                                         <span>
                                             Nueva contraseña
                                             <span className='tooltip-icon'>
+                                                {/*}
                                                 <img src={QuestionIcon} />
+                                                */}
                                                 <span className='tooltip-text'>Este campo es opcional</span>
                                             </span>
                                         </span>
@@ -130,19 +137,15 @@ export default function Popup({ show, setShow, data, action } : props) {
                                     pattern: /^[a-zA-Z0-9]+$/,
                                     patternMessage: "Debe contener solo letras y números",
                                     defaultValue: '',
-                                    validate: function (value: any): boolean | string {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    validate: () => true,
                                     disabled: false,
-                                    onChange: function (event: any): void {
-                                        throw new Error('Function not implemented.');
-                                    },
+                                    onChange: () => {},
                                     options: [],
                                     errorMessageData: undefined
                                 }
                             ]}
                             onSubmit={handleSubmit}
-                            buttonText="Editar usuario"
+                            buttonText="Crear el usuario"
                             backgroundColor={'#fff'} footerContent={''} children={undefined}                    />
                 </div>
             </div>

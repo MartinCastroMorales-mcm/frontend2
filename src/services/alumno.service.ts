@@ -3,6 +3,7 @@ import myaxios from "./root.service.js";
 import axios from 'axios'
 import ReturnValue from "../model/ReturnValue.js";
 import ResponseEntity from "../model/ResponseEntity.js";
+import Alumno from "../model/Alumno.js";
 
 
 //notas de axiosError
@@ -22,6 +23,26 @@ export async function getAlumnosService(): Promise<ResponseEntity> {
         console.log(response);
         return response;
         //Los errores solo pueden ser de tipo any o unkown
+    }catch(error : unknown){
+        //type guard, al retornar positivo error va a ser de tipo
+        //axios error por lo que typescript hace su trabajo
+        if(axios.isAxiosError<ResponseEntity>(error)) {
+            //TODO: que hace la ?, algo con nulos?
+            if(error.response !== null && error.response !== undefined) {
+                console.log(error.response.data);
+                return {data: {alumnos: []}, message: "Error en el fetch"};
+            }
+            return {data: {alumnos: []}, message: "Error en el fetch"};
+        }
+    }
+    return {data: { alumnos: []}, message: "¿?"};
+}
+//No me convence del todo el catch, se podria refactorizar
+export async function addAlumnosService(requestData : Alumno): Promise<ResponseEntity> {
+    try {
+        const { data } = await myaxios.get('/alumno', requestData);
+        const response = data;
+        return response;
     }catch(error : unknown){
         //type guard, al retornar positivo error va a ser de tipo
         //axios error por lo que typescript hace su trabajo

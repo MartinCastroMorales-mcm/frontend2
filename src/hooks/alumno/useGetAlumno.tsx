@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { getAlumnosService } from '../services/alumno.service';
-import ReturnValue from '../model/ReturnValue';
-import Alumno from '../model/Alumno';
-import ResponseEntity from '../model/ResponseEntity';
+import { getAlumnosService } from '../../services/alumno.service';
+import ReturnValue from '../../model/ReturnValue';
+import Alumno from '../../model/Alumno';
+import ResponseEntity from '../../model/ResponseEntity';
 
 const useGetAlumnos = () => {
     const [alumnos, setAlumno] = useState<Alumno[]>([]);

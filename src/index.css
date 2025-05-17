@@ -3,6 +3,27 @@
 
 @layer base {
     html {
-        @apply bg-gray-500
+        @apply bg-gray-500;
+    }
+    .primary-bg-color {
+        @apply bg-red-700;
+    }
+    .secondary-bg-color {
+        @apply bg-black;
+    }
+    .tertiary-bg-color {
+        @apply bg-gray-300;
+    }
+    .quaternary-bg-color {
+        @apply bg-gray-700;
+    }
+    .primary-text-color {
+        @apply text-red-700;
+    }
+    .secondary-text-color {
+        @apply text-black;
+    }
+    .tertiary-text-color {
+        @apply text-gray-100;
     }
 }
