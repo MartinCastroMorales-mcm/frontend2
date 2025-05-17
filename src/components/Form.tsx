@@ -30,6 +30,8 @@ type field = {
     type: string,
     minLength: number,
     maxLength: number,
+    minDate: Date,
+    maxDate: Date,
     pattern: RegExp | undefined,
     patternMessage: string,
     //esto es para funciones de validacion personalizadas.
@@ -64,6 +66,7 @@ const Form = (
     };
 
     const onFormSubmit = (data: any) => {
+        console.log("onSubmit");
         onSubmit(data);
     };
 
@@ -89,7 +92,7 @@ const Form = (
                                 {field.fieldType === 'input' && (
 
                                     <input
-                                        className={inputStyle}
+                                        className={`${inputStyle} placeholder-gray-400`}
                                         {...register(field.name, {
                                             required: field.required ? 'Este campo es obligatorio' : false,
                                             minLength: field.minLength ? { value: field.minLength, message: `Debe tener al menos ${field.minLength} caracteres` } : undefined,
@@ -107,6 +110,18 @@ const Form = (
                                         onChange={field.onChange}
                                     />
                                 )}
+                                {field.fieldType === 'date' && (
+                                    <input className={`${inputStyle} placeholder-gray-400`}
+                                    type='date'
+                                    {...register(field.name, {
+                                        required: field.required ? "Este campo es obligatorio" : false,
+                                        min: {value: field.minDate.toISOString().split("T")[0], 
+                                            message: `La fecha debe ser posterior a ${field.minDate.toISOString().split("T")[0]}`},
+                                        max: {value: field.maxDate.toISOString().split("T")[0], 
+                                            message: `La fecha debe ser anterior a ${field.maxDate.toISOString().split("T")[0]}`}
+                                    })}
+                                    />
+                                )} 
                                 {field.fieldType === 'textarea' && (
                                     <textarea
                                         {...register(field.name, {
@@ -146,8 +161,8 @@ const Form = (
                                     <span className="top-1/2 toggle-password-icon" onClick={togglePasswordVisibility}>
                                         {showPassword ? <Eye /> : <EyeOff />}
                                         {/*
-                            <img src={showPassword ? ViewIcon : HideIcon} />
-                            */}
+                                        <img src={showPassword ? ViewIcon : HideIcon} />
+                                        */}
                                     </span>
                                 )}
                                 {field.type === 'password' && field.name === 'newPassword' && (

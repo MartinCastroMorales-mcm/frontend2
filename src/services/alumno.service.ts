@@ -39,21 +39,35 @@ export async function getAlumnosService(): Promise<ResponseEntity> {
 }
 //No me convence del todo el catch, se podria refactorizar
 export async function addAlumnosService(requestData : Alumno): Promise<ResponseEntity> {
+    console.log("addAlumnosService");
     try {
-        const { data } = await myaxios.get('/alumno', requestData);
+        const { data } = await myaxios.post('/alumno', requestData);
         const response = data;
+        console.log("response");
+        console.log(response);
         return response;
-    }catch(error : unknown){
+    }catch(error : any){
+        console.log("any error");
+        console.log(error);
         //type guard, al retornar positivo error va a ser de tipo
         //axios error por lo que typescript hace su trabajo
         if(axios.isAxiosError<ResponseEntity>(error)) {
             //TODO: que hace la ?, algo con nulos?
             if(error.response !== null && error.response !== undefined) {
                 console.log(error.response.data);
-                return {data: {alumnos: []}, message: "Error en el fetch"};
+                console.log("nuevo mensaje en error.message")
+                //TODO cambiar el message en el backend para que se vea el nombre
+                //de uno de los errores o mejor la lista de todos los errores
+                console.log(error.message);
+                //entrega el error al hook
+                throw error;
+                //return {data: {alumnos: []}, message: error.message};
             }
-            return {data: {alumnos: []}, message: "Error en el fetch"};
+            throw error;
+            //return {data: {alumnos: []}, message: error.message};
+            //return {data: {alumnos: []}, message: "Error en el fetch"};
         }
+        throw error
+        //return {data: { alumnos: [] }, message: "Error en la respuesta"}
     }
-    return {data: { alumnos: []}, message: "¿?"};
 }

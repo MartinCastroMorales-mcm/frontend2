@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { showErrorAlert, showSuccessAlert } from '../../helpers/sweetAlert' //'../../helpers/sweetAlert.js';
 import Alumno from '../../model/Alumno';
 import { addAlumnosService } from '../../services/alumno.service';
+import axios from 'axios';
 
 const useCreateAlumno = (
     //Es el tipo retornado por la funcion useState
@@ -17,13 +18,9 @@ const useCreateAlumno = (
     };
 
     const handleCreate = async (newAlumnoData : Alumno) => {
+        console.log("handleCreate");
         if (newAlumnoData) {
             try {
-                // Convierte id_horario_laboral a entero antes de enviarlo
-                //const formattedData = {
-                    //...newAlumnoData,
-                    //id_horario_laboral: parseInt(newAlumnoData.id_horario_laboral, 10), // Convertir a entero
-                //};
                 const response = await addAlumnosService(newAlumnoData);
                 const alumnoCreado = response.data.alumnos;
                 showSuccessAlert('¡Usuario Creado!', 'El usuario se ha registrado correctamente.');
@@ -35,9 +32,11 @@ const useCreateAlumno = (
                 setIsCreatePopUpOpen(false);
             } catch (error) {
                 console.error('Error al crear el usuario:', error);
-                //const errorMessage = error.response?.data?.message || 'Ocurrió un problema al crear el usuario.';
-                const errorMessage = 'Ocurrió un problema al crear el alumno.';
-                showErrorAlert('Error', errorMessage);
+                let errorMessage = 'Ocurrió un problema al crear el alumno.';
+                if(axios.isAxiosError(error)) {
+                    errorMessage = error.message;
+                }                
+                showErrorAlert('Error al crear usuario', errorMessage);
             }
         }
     };
