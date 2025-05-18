@@ -5,6 +5,10 @@
 [X] Agregar un popup
 [ ] Agregar un desplegable con los botones
 [X] El jwt tiene un tiempo muy limitado
+[ ] Agregar crud completo de alumno
+[ ] Modelar la arquitectura
+[ ] Subir una prueba
+[ ] Establecer CI/CD
 
 
 bugList:
